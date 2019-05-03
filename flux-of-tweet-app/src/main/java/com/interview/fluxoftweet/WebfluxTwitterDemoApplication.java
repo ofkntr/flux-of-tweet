@@ -15,6 +15,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
+
+import java.util.concurrent.Executors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -48,6 +51,11 @@ public class WebfluxTwitterDemoApplication {
 
             Flux<Tweet> tweets =
                     twitterWebClient.getFromTwitterStreamAPI(twitterStreamApiUrl, body, Tweet.class)
+                            .log()
+                            .subscribeOn(Schedulers.fromExecutor(Executors.newFixedThreadPool(10)))
+                            .log()
+                            .publishOn(Schedulers.fromExecutor(Executors.newFixedThreadPool(10)))
+                            .log()
                             .onErrorContinue((throwable, tweet) -> {
                                 log.error("Exception when getting data from Twitter, tweet : {}", tweet, throwable);
                             });
@@ -56,8 +64,12 @@ public class WebfluxTwitterDemoApplication {
                 Mono<Tweet> kafkaMono = kafkaTweetProducer.send(tweet).map(a -> tweet);
                 Mono<Tweet> h2Mono = tweetService.saveTweet(tweet);
                 return Mono.zip(kafkaMono, h2Mono).map(a -> a.getT2());
-            }).subscribe(System.out::println);
-
+            }).log()
+                    .subscribeOn(Schedulers.fromExecutor(Executors.newFixedThreadPool(10)))
+                    .log()
+                    .publishOn(Schedulers.fromExecutor(Executors.newFixedThreadPool(10)))
+                    .log()
+                    .subscribe(System.out::println);
         };
     }
 
