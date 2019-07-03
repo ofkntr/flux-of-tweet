@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/flux-of-tweet.iml" filepath="$PROJECT_DIR$/flux-of-tweet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/flux-of-tweet-app/flux-of-tweet-app.iml" filepath="$PROJECT_DIR$/flux-of-tweet-app/flux-of-tweet-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/twitter-auth/twitter-auth.iml" filepath="$PROJECT_DIR$/twitter-auth/twitter-auth.iml" />
+    </modules>
+  </component>
+</project>
