@@ -18,7 +18,7 @@
 
     <properties>
         <hbc.core.version>2.2.0</hbc.core.version>
-        <google.oauth.version>1.18.0-rc</google.oauth.version>
+        <google.oauth.version>1.32.1</google.oauth.version>
     </properties>
 
     <dependencies>
